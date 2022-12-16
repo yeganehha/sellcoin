@@ -13,6 +13,7 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
 
 class PlatformIndex extends DataTableComponent
 {
+    public $addRoute = "platforms.create";
     protected $model = Platform::class;
 
     function builder(): Builder

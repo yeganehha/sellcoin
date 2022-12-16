@@ -4,8 +4,9 @@ namespace App\Platforms;
 use App\Exceptions\CoinNotFoundException;
 use App\Exceptions\PlatformDriverDoNotSupportBuyAnyCoinException;
 use App\Models\Coin;
+use Illuminate\Contracts\Support\Arrayable;
 
-abstract class Platform implements PlatformInterface
+abstract class Platform implements PlatformInterface,Arrayable
 {
     public static string|null $driver_name = null;
 
@@ -32,5 +33,13 @@ abstract class Platform implements PlatformInterface
     public function buyCoin(string $symbol , float $amount) : string
     {
         throw new PlatformDriverDoNotSupportBuyAnyCoinException();
+    }
+
+    public function toArray()
+    {
+        return [
+            'name' => get_class($this),
+            'label' => get_class($this)::$driver_name,
+        ];
     }
 }

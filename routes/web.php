@@ -19,4 +19,5 @@ Route::get('/', function () {
 
 Route::prefix('/platforms')->name('platforms.')->group(function () {
     Route::get('/', \App\Http\Livewire\Platform\PlatformIndex::class)->name('index');
+    Route::get('/create', \App\Http\Livewire\Platform\CreateAndEdit::class)->name('create');
 });
