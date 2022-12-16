@@ -4,6 +4,7 @@ namespace App\Services\Platform;
 
 use App\Models\Platform;
 use App\Platforms\PlatformInterface;
+use Illuminate\Support\Facades\DB;
 use \InvalidArgumentException;
 
 class PlatformService
@@ -96,6 +97,49 @@ class PlatformService
         return self::getPlatform($platform);
     }
 
+    public static function deactivatePlatform(Platform $platform) : bool
+    {
+        return $platform->delete() ?? false;
+    }
+
+    /**
+     * deactivate list of platforms
+     * @param array $ids
+     * @return bool
+     */
+    public static function deactivateMultiply(array $ids) : bool
+    {
+        DB::beginTransaction();
+        foreach ($ids as $id)
+        {
+            $platform = self::find($id);
+            self::deactivatePlatform($platform);
+        }
+        DB::commit();
+        return true;
+    }
+
+    public static function activatePlatform(Platform $platform) : bool
+    {
+        return $platform->restore() ?? false;
+    }
+
+    /**
+     * activate list of platforms
+     * @param array $ids
+     * @return bool
+     */
+    public static function activateMultiply(array $ids) : bool
+    {
+        DB::beginTransaction();
+        foreach ($ids as $id)
+        {
+            $platform = self::find($id);
+            self::activatePlatform($platform);
+        }
+        DB::commit();
+        return true;
+    }
 
     private static function getPlatform( mixed $platform) : Platform
     {
