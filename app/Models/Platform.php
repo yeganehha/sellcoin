@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Platform extends Model
 {
-    use HasFactory,SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
