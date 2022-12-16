@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('platforms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedFloat('deposit_tether')->default(0);
-            $table->unsignedFloat('reserved_tether')->default(0);
+            $table->unsignedFloat('deposit_tether',16,8)->default(0);
+            $table->unsignedFloat('reserved_tether',16,8)->default(0);
             $table->string('driver_name');
             $table->softDeletes();
             $table->timestamps();
