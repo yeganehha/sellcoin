@@ -58,10 +58,10 @@ class PlatformIndex extends DataTableComponent
                 ->searchable()
                 ->sortable(),
             Column::make("Deposit tether", "deposit_tether")
-                ->format(fn($value, $row) => number_format($value)  )
+                ->format(fn($value, $row) => number_format($value,8)  )
                 ->sortable(),
             Column::make("Reserved tether", "reserved_tether")
-                ->format(fn($value, $row) => number_format($value)  )
+                ->format(fn($value, $row) => number_format($value,8)  )
                 ->sortable(),
             Column::make("Driver name", "driver_name")
                 ->searchable()
@@ -80,6 +80,14 @@ class PlatformIndex extends DataTableComponent
                     LinkColumn::make('Edit')
                         ->title(fn($row) => 'Edit' )
                         ->location(fn($row) => route('platforms.edit', $row))
+                        ->attributes(function($row) {
+                            return [
+                                'class' => 'btn btn-outline-warning',
+                            ];
+                        }),
+                    LinkColumn::make('Edit')
+                        ->title(fn($row) => 'Update Wallet' )
+                        ->location(fn($row) => route('platforms.edit.wallet', $row))
                         ->attributes(function($row) {
                             return [
                                 'class' => 'btn btn-outline-warning',
