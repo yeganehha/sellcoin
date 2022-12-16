@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Platform;
 use Rappasoft\LaravelLivewireTables\Views\Columns\BooleanColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\ButtonGroupColumn;
+use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
 class PlatformIndex extends DataTableComponent
 {
@@ -68,6 +70,22 @@ class PlatformIndex extends DataTableComponent
             BooleanColumn::make("Active", "deleted_at")
                 ->setSuccessValue(false)
                 ->sortable(),
+            ButtonGroupColumn::make('Actions')
+                ->attributes(function($row) {
+                    return [
+                        'class' => 'space-x-2',
+                    ];
+                })
+                ->buttons([
+                    LinkColumn::make('Edit')
+                        ->title(fn($row) => 'Edit' )
+                        ->location(fn($row) => route('platforms.edit', $row))
+                        ->attributes(function($row) {
+                            return [
+                                'class' => 'btn btn-outline-warning',
+                            ];
+                        }),
+                ]),
         ];
     }
 }
