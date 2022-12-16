@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class BinanceDriver extends \App\Platforms\Platform
 {
-    public string|null $driver_name = "Binance";
+    public static string|null $driver_name = "Binance";
 
     /**
      * get list of Coins and return in Collection.

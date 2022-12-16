@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class CoinExDriver extends \App\Platforms\Platform
 {
-    public string|null $driver_name = "CoinEx";
+    public static string|null $driver_name = "CoinEx";
 
     /**
      * get list of Coins and return in Collection.

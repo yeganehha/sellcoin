@@ -7,7 +7,7 @@ use App\Models\Coin;
 
 abstract class Platform implements PlatformInterface
 {
-    public string|null $driver_name = null;
+    public static string|null $driver_name = null;
 
     /**
      * get information of special coin.
