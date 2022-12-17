@@ -19,6 +19,7 @@ class CreateOrder extends Component
     public $amount;
     public $price;
     public $message ;
+    public $error = false ;
 
     protected $rules = [
         'platformId' => ['required' , 'numeric' , 'exists:platforms,id' ],
@@ -60,6 +61,19 @@ class CreateOrder extends Component
             $this->rules['amount'] =  ['required' , 'numeric' , 'min:0' ];
     }
 
+
+    public function purchase()
+    {
+        $this->error = false;
+        $this->amountValidation();
+        $this->validate();
+        try {
+            $order = PurchaseService::draft($this->platform, $this->coin, $this->amount);
+            return $this->redirect(route('orders.track' , $order));
+        } catch (\Exception $exception){
+            $this->error = $exception->getMessage();
+        }
+    }
 
     public function mount()
     {

@@ -1,5 +1,11 @@
 <div>
     <x-slot name="title">Make new order</x-slot>
+    @if($error)
+        <div class="alert alert-danger">
+            Some Error happened!
+            <div>{{ $error }}</div>
+        </div>
+    @endif
     @if($message)
         <div class="alert alert-success">
             {{$message}}
