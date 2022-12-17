@@ -12,7 +12,12 @@
 
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+{{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
+    <link rel="preload" as="style" href="{{ asset('build/assets/app-eb583914.css') }}" />
+    <link rel="modulepreload" href="{{ asset('build/assets/app-5c863213.js') }}" />
+    <link rel="stylesheet" href="{{ asset('build/assets/app-eb583914.css') }}" />
+    <script type="module" src="{{asset('build/assets/app-5c863213.js')}}"></script>
+    <!-- Livewire Styles -->
     @livewireStyles
 </head>
 <body>

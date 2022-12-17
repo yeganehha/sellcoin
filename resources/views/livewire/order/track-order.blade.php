@@ -69,6 +69,11 @@
         </tr>
         <tr>
             <td colspan="2">
+                <strong>Wallet</strong>: {{ $order->wallet }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
                 <H5>Coin</H5>
             </td>
         </tr>

@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/' , '/orders');
 
 Route::prefix('/platforms')->name('platforms.')->group(function () {
     Route::get('/', \App\Http\Livewire\Platform\PlatformIndex::class)->name('index');

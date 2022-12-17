@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string coin_id
  * @property string coin_symbol
  * @property string coin_name
+ * @property string wallet
  * @property float coin_price
  * @property float price
  * @property OrderStatusEnum status
@@ -35,6 +36,7 @@ class Order extends Model
         'coin_name' ,
         'coin_price' ,
         'price' ,
+        'wallet' ,
         'status' ,
     ];
 
@@ -65,13 +67,14 @@ class Order extends Model
      * @param int $platform_id
      * @param float $price
      * @param Coin $coin
+     * @param string $wallet
      * @return Order
      * @throws \Throwable
      */
-    public static function insert(float $amount , int $platform_id , float $price , Coin $coin ): self
+    public static function insert(float $amount , int $platform_id , float $price , Coin $coin , string $wallet ): self
     {
         $order = new self();
-        $order->edit(OrderStatusEnum::Wait,null,$amount,$price,$platform_id,$coin);
+        $order->edit(OrderStatusEnum::Wait,null,$amount,$price,$platform_id,$coin , $wallet);
         return $order;
     }
 
@@ -82,10 +85,11 @@ class Order extends Model
      * @param float|null $price
      * @param int|null $platform_id
      * @param Coin|null $coin
+     * @param string|null $wallet
      * @return Order
      * @throws \Throwable
      */
-    public function edit(OrderStatusEnum|null $status = null, string|null $transaction = null, float|null $amount = null , float|null $price = null , int|null $platform_id = null  , Coin|null $coin = null): self
+    public function edit(OrderStatusEnum|null $status = null, string|null $transaction = null, float|null $amount = null , float|null $price = null , int|null $platform_id = null  , Coin|null $coin = null , string|null $wallet = null): self
     {
         if( $status != null)
             $this->status = $status;
@@ -97,6 +101,8 @@ class Order extends Model
             $this->platform_id = $platform_id;
         if( $price != null)
             $this->price = $price;
+        if( $wallet != null)
+            $this->wallet = $wallet;
         if( $coin != null) {
             $this->coin_id = $coin->id;
             $this->coin_name = $coin->name;

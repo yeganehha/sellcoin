@@ -73,10 +73,11 @@ class BinanceDriver extends \App\Platforms\Platform
      *
      * @param mixed $coin coin
      * @param float $amount amount of that coin
+     * @param string $wallet
      * @return string transaction uid
      * @throws PlatformDriverDoNotSupportBuyAnyCoinException
      */
-    public function buyCoin(mixed $coin , float $amount) : string
+    public function buyCoin(mixed $coin , float $amount , string $wallet) : string
     {
         return "bnb-id-".time();
     }

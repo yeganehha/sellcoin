@@ -22,8 +22,9 @@ return new class extends Migration
             $table->string('coin_id');
             $table->string('coin_symbol');
             $table->string('coin_name');
-            $table->string('coin_price');
-            $table->string('price');
+            $table->float('coin_price', 16 , 8);
+            $table->float('price' , 16 , 8);
+            $table->string('wallet');
             $table->enum('status' , ['wait','paid','cancel'])->default('wait');
             $table->timestamps();
         });

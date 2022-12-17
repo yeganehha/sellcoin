@@ -39,4 +39,16 @@ class DriverServiceTest extends TestCase
         $this->assertArrayHasKey(CoinExDriver::class , DriverService::listDrivers());
     }
 
+    public function testGetDriver()
+    {
+        $driver = DriverService::getDriver(BinanceDriver::class);
+        $this->assertTrue($driver instanceof BinanceDriver);
+    }
+
+    public function testGetInvalidDriver()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        DriverService::getDriver(self::class);
+    }
+
 }

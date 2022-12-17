@@ -7,6 +7,7 @@ use App\Http\Livewire\DataTableComponent;
 use App\Models\Order;
 use App\Models\Platform;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class OrderIndex extends DataTableComponent
@@ -57,6 +58,10 @@ class OrderIndex extends DataTableComponent
                 ->format(
                     fn($value, $row, Column $column) => view('layouts.status', compact('value'))
                 )
+                ->searchable()
+                ->sortable(),
+            Column::make("Wallet", "wallet")
+                ->format(fn($value, $row) => Str::limit($value,10)  )
                 ->searchable()
                 ->sortable(),
             Column::make("Created at", "created_at")
