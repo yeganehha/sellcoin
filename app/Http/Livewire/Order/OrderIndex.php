@@ -44,10 +44,10 @@ class OrderIndex extends DataTableComponent
             Column::make("Platform id", "platform.name")
                 ->hideIf($this->platform->id != null)
                 ->sortable(),
-            Column::make("Currency", "currency_name")
+            Column::make("Coin", "coin_name")
                 ->searchable()
                 ->sortable(),
-            Column::make("Unit Price", "currency_price")
+            Column::make("Unit Price", "coin_price")
                 ->format(fn($value, $row) => number_format($value,8)  )
                 ->sortable(),
             Column::make("Order Price", "price")
