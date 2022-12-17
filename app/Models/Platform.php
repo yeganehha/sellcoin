@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
+
 
 /**
  * @property string $name
@@ -15,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property null|Collection orders
  *
  */
 class Platform extends Model
@@ -31,6 +34,11 @@ class Platform extends Model
         'deposit_tether' => 'float',
         'reserved_tether' => 'float',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class)->orderByDesc('id');
+    }
 
     /**
      * @param int $id
