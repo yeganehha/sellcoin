@@ -28,4 +28,5 @@ Route::prefix('/platforms')->name('platforms.')->group(function () {
 
 Route::prefix('/orders')->name('orders.')->group(function () {
     Route::get('/', \App\Http\Livewire\Order\OrderIndex::class)->name('index');
+    Route::get('/create' ,\App\Http\Livewire\Order\CreateOrder::class)->name('create');
 });

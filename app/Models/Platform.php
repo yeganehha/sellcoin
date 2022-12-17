@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Platforms\PlatformInterface;
+use App\Services\Platform\DriverService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +17,7 @@ use Illuminate\Support\Collection;
  * @property float $deposit_tether
  * @property float $reserved_tether
  * @property string $driver_name
+ * @property PlatformInterface $driver
  * @property Carbon $deleted_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -38,6 +42,11 @@ class Platform extends Model
     public function orders()
     {
         return $this->hasMany(Order::class)->orderByDesc('id');
+    }
+
+    public function getDriverAttribute() : PlatformInterface
+    {
+        return DriverService::getDriver($this->getAttribute('driver_name'));
     }
 
     /**

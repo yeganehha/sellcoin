@@ -55,4 +55,29 @@ class DriverService
             throw new InvalidArgumentException("Driver [{$name}] not found.");
         return  ($name)::$driver_name ?? $name;
     }
+
+    /**
+     * Get special driver object.
+     * @param string $name
+     * @return PlatformInterface
+     */
+    public static function getDriver(string $name) : PlatformInterface
+    {
+        if ( ! self::isValidDriver($name))
+            throw new InvalidArgumentException("Driver [{$name}] not found.");
+        return  new $name();
+    }
+
+    /**
+     * Get special driver object.
+     * @param mixed $platform
+     * @return Collection
+     */
+    public static function coins(mixed $platform) : Collection
+    {
+        $platform = PlatformService::find($platform);
+        return cache()->remember('listCoinsOf' . $platform->id , config('setting.coins.list.cache_time' , 0) , function () use ($platform) {
+            return $platform->driver->coins();
+        });
+    }
 }
