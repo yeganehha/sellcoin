@@ -4,6 +4,7 @@ namespace App\Services\Platform;
 
 use App\Models\Platform;
 use App\Platforms\PlatformInterface;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use \InvalidArgumentException;
 
@@ -139,6 +140,11 @@ class PlatformService
         }
         DB::commit();
         return true;
+    }
+
+    public static function listPlatforms() :Collection
+    {
+        return Platform::query()->orderByDesc('id')->get();
     }
 
     private static function getPlatform( mixed $platform) : Platform

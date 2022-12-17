@@ -93,6 +93,14 @@ class PlatformIndex extends DataTableComponent
                                 'class' => 'btn btn-outline-warning',
                             ];
                         }),
+                    LinkColumn::make('Edit')
+                        ->title(fn($row) => 'Orders' )
+                        ->location(fn($row) => route('platforms.orders', $row))
+                        ->attributes(function($row) {
+                            return [
+                                'class' => 'btn btn-outline-info',
+                            ];
+                        }),
                 ]),
         ];
     }
