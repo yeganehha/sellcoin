@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
  * @property string $name
  * @property float $deposit_tether
  * @property float $reserved_tether
+ * @property float $available_tether
  * @property string $driver_name
  * @property PlatformInterface $driver
  * @property Carbon $deleted_at
@@ -47,6 +48,11 @@ class Platform extends Model
     public function getDriverAttribute() : PlatformInterface
     {
         return DriverService::getDriver($this->getAttribute('driver_name'));
+    }
+
+    public function getAvailableTetherAttribute() : float
+    {
+        return $this->getAttribute('deposit_tether') - $this->getAttribute('reserved_tether') ;
     }
 
     /**

@@ -43,6 +43,14 @@
             </div>
         </div>
 
+        @if( $coin)
+            <hr>
+        <div class="col-md-6 mb-3 text-center">
+            <span><img src="{{ $coin['image'] }}" style="max-width: 50px; margin-right: 25px" >{{ $coin['name'] }} ({{ $coin['symbol'] }})</span>
+        </div>
+        <div class="col-md-6 mb-3 mt-3 text-center">
+            <span>Price on {{ $platform['name'] }} exchange:  ${{ number_format($coin['price'], 8) }}</span>
+        </div>
 
         <div class="col-md-6 row mb-3">
             <label for="name" class="col-md-4 col-form-label text-md-end">Amount</label>
@@ -56,11 +64,18 @@
                 @enderror
             </div>
         </div>
+            <div class="col-md-6 mb-3 mt-3 text-center">
+                <span>Price:  ${{ number_format($price, 8) }}</span>
+            </div>
+        @endif
 
+        <div class="col-md-12 alert w-100 alert-info" wire:loading>
+            Getting Information. please wait ...
+        </div>
         <div class="col-md-12 mt-4 justify-content-center align-items-center d-flex border-1">
             <button type="button" class="btn btn-success mt-4" wire:loading.attr="disabled"
-                    wire:click.prevent="save">
-                Submit
+                    wire:click.prevent="purchase">
+                Purchase order
             </button>
         </div>
     </div>

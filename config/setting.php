@@ -3,7 +3,8 @@
 return [
    'coins' => [
        'list' => [
-           'cache_time' => 5 * 60 * 60,
-       ]
+           'cache_time' => 5 * 60 ,
+       ],
+       'cache_time' => 60
    ]
 ];

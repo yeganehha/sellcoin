@@ -28,6 +28,8 @@ class BinanceDriver extends \App\Platforms\Platform
             $config['handler'] = self::$handler;
         $client = new Client($config);
         $options['Accept'] = 'application/json';
+        $options['timeout'] = 5;
+        $options['connect_timeout'] = 5;
         $request = $client->request("GET",'/api/v3/coins/markets?vs_currency=usd',$options);
         $body = $request->getBody()->getContents();
         $coins = json_decode($body,true) ?? [];

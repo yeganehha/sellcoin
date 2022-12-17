@@ -2,6 +2,8 @@
 
 namespace App\Services\Platform;
 
+use App\Exceptions\CoinNotFoundException;
+use App\Models\Coin;
 use App\Platforms\PlatformInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -78,6 +80,21 @@ class DriverService
         $platform = PlatformService::find($platform);
         return cache()->remember('listCoinsOf' . $platform->id , config('setting.coins.list.cache_time' , 0) , function () use ($platform) {
             return $platform->driver->coins();
+        });
+    }
+
+    /**
+     * Get special driver object.
+     * @param mixed $platform
+     * @param mixed $coin
+     * @return Coin
+     * @throws CoinNotFoundException
+     */
+    public static function coin(mixed $platform , mixed $coin) : Coin
+    {
+        $platform = PlatformService::find($platform);
+        return cache()->remember('coinOf' . $platform->id .'_'.$coin , config('setting.coins.cache_time' , 0) , function () use ($platform,$coin)  {
+            return $platform->driver->getCoin($coin);
         });
     }
 }
