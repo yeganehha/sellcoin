@@ -13,24 +13,24 @@ abstract class Platform implements PlatformInterface,Arrayable
     /**
      * get information of special coin.
      *
-     * @param string $symbol
+     * @param mixed $id
      * @return Coin
      * @throws CoinNotFoundException
      */
-    public function getCoin(string $symbol) : Coin
+    public function getCoin(mixed $id) : Coin
     {
-        throw (new CoinNotFoundException())->setCoin($symbol);
+        throw (new CoinNotFoundException())->setCoin($id);
     }
 
     /**
      * buy custom amount of special coin.
      *
-     * @param string $symbol coin symbol
+     * @param mixed $coin coin
      * @param float $amount amount of that coin
      * @return string transaction uid
      * @throws PlatformDriverDoNotSupportBuyAnyCoinException
      */
-    public function buyCoin(string $symbol , float $amount) : string
+    public function buyCoin(mixed $coin , float $amount) : string
     {
         throw new PlatformDriverDoNotSupportBuyAnyCoinException();
     }
