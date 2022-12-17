@@ -1,3 +1,6 @@
+<x-slot name="title">{{ $title ?? 'Default Title'}}</x-slot>
+<x-slot name="addRoute">{{ $addRoute }}</x-slot>
+<x-slot name="backRoute">{{ $backRoute}}</x-slot>
 <x-livewire-tables::wrapper :component="$this">
     <x-livewire-tables::tools>
         <x-livewire-tables::tools.sorting-pills />
