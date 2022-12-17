@@ -1,0 +1,55 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Exceptions\CoinNotFoundException;
+use App\Exceptions\PlatformDriverDoNotSupportBuyAnyCoinException;
+use App\Models\Coin;
+use Illuminate\Support\Collection;
+
+class {{ class }} extends \App\Platforms\Platform
+{
+    public static string|null $driver_name = "{{ class }}";
+
+    /**
+     * get list of Coins and return in Collection.
+     *
+     * @return Collection < App\Model\Coin >
+     */
+    public function coins():Collection
+    {
+        // TODO:return collection of App\Model\Coin
+    }
+
+    /**
+     * get information of special coin.
+     *
+     * @param mixed $id
+     * @return Coin
+     * @throws CoinNotFoundException
+     */
+    public function getCoin(mixed $id) : Coin
+    {
+        $coins = $this->coins();
+        $coin = $coins->first(function ($coin) use($id) {
+                                  return $coin->id == $id;
+                              });
+        if ( $coin == null )
+            throw (new CoinNotFoundException())->setCoin($id);
+        return $coin;
+    }
+
+    /**
+     * buy custom amount of special coin.
+     *
+     * @param mixed $coin coin
+     * @param float $amount amount of that coin
+     * @param string $wallet
+     * @return string transaction uid
+     * @throws PlatformDriverDoNotSupportBuyAnyCoinException
+     */
+    public function buyCoin(mixed $coin , float $amount , string $wallet) : string
+    {
+        // TODO:return string of transaction result
+    }
+}

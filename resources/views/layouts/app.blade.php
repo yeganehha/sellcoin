@@ -13,7 +13,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
+    @livewireStyles
 </head>
 <body>
     <div id="app">
@@ -29,13 +29,18 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('orders.create') }}">New Order</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"></a>
+                            <a class="nav-link" href="{{ route('platforms.index') }}">Platforms</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
                         </li>
                     </ul>
                 </div>
@@ -46,8 +51,31 @@
             @hasSection('content')
                 @yield('content')
             @endif
+            @if( isset($slot))
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    {{ $title ?? __('Dashboard') }}
+                                    @if(isset($addRoute) and $addRoute != "" )
+                                        <a href="{{ $addRoute }}" class="btn btn-success float-end mx-3">Add New {{ $title ?? 'Item' }}</a>
+                                    @endif
+                                    @if(isset($backRoute) and $backRoute != "" )
+                                        <a href="{{ $backRoute }}" class="btn btn-outline-dark float-end mx-3">Return back</a>
+                                    @endif
+                                </div>
+                                <div class="card-body">
+                                    {{ $slot }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </main>
     </div>
 <script defer src="{{ asset('alpinejs.js') }}"></script>
+    @livewireScripts
 </body>
 </html>
