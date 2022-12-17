@@ -27,6 +27,12 @@
             Your purchase is going to be `cancel` if you do not confirm purchase in <span x-text="getTimeElapsed"></span> seconds!
         </div>
     </div>
+    @if($error)
+        <div class="alert alert-danger">
+            Some Error happened!
+            <div>{{ $error }}</div>
+        </div>
+    @endif
     @if($message)
         <div class="alert alert-success">
             {{$message}}
@@ -74,10 +80,12 @@
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-3">
-            <button class="btn btn-danger w-100">Cancel purchase</button>
+            <button class="btn btn-danger w-100" wire:loading.attr="disabled"
+                    wire:click.prevent="cancel">Cancel purchase</button>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success w-100">Confirm purchase</button>
+            <button class="btn btn-success w-100" wire:loading.attr="disabled"
+                    wire:click.prevent="confirm">Confirm purchase</button>
         </div>
     </div>
 </div>
