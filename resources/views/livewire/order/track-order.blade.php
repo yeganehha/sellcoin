@@ -1,11 +1,14 @@
 <div>
     <x-slot name="title">Track order #{{ $order->id }}</x-slot>
+
+    @if($order->status == \App\Enums\OrderStatusEnum::Wait and $wait > 0)
     <script>
         function moment() {
             return {
                 seconds: 0,
                 interval: "",
                 init(seconds) {
+                    clearInterval(this.interval);
                     this.seconds = seconds;
                     this.interval = setInterval(() => {
                         if (this.seconds === 0) {
@@ -23,10 +26,11 @@
     </script>
     <div class="alert alert-warning">
         <strong>Your purchase is not complete!</strong>
-        <div  x-data="moment" x-init="init(40)">
+        <div  x-data="moment" x-init="init({{ $wait }})">
             Your purchase is going to be `cancel` if you do not confirm purchase in <span x-text="getTimeElapsed"></span> seconds!
         </div>
     </div>
+    @endif
     @if($error)
         <div class="alert alert-danger">
             Some Error happened!
@@ -77,6 +81,8 @@
             </td>
         </tr>
     </table>
+
+    @if($order->status == \App\Enums\OrderStatusEnum::Wait)
     <div class="row">
         <div class="col-md-6"></div>
         <div class="col-md-3">
@@ -88,4 +94,5 @@
                     wire:click.prevent="confirm">Confirm purchase</button>
         </div>
     </div>
+    @endif
 </div>

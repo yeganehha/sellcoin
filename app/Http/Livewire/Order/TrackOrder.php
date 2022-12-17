@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Order;
 
+use App\Enums\OrderStatusEnum;
 use App\Models\Order;
 use App\Services\Order\PurchaseService;
 use Livewire\Component;
@@ -12,10 +13,15 @@ class TrackOrder extends Component
 
     public Order $order ;
     public $error = false ;
+    public $wait = false ;
 
     public function mount(Order $order)
     {
         $this->order = $order;
+        if ( $this->order->status == OrderStatusEnum::Wait) {
+            $cancelTime = $this->order->created_at->addMinutes(config('setting.purchase.wait_for_confirm' , 0));
+            $this->wait = now()->diffInSeconds($cancelTime) + 1 ;
+        }
     }
 
     public function confirm()
