@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\OrderStatusEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
@@ -56,6 +57,7 @@ class OrderFactory extends Factory
             'coin_name' => $coin['name'],
             'coin_price' => $coin['current_price'],
             'price' => $price,
+            'transaction' => ( $status == OrderStatusEnum::Paid ? Str::random(6) : null),
             'status' => $status,
         ];
     }
