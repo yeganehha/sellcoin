@@ -51,10 +51,10 @@ class OrderFactory extends Factory
         return [
             'amount' =>  $amount ,
             'platform_id' => rand(1,2),
-            'currency_id' => $coin['id'],
-            'currency_symbol' => $coin['symbol'],
-            'currency_name' => $coin['name'],
-            'currency_price' => $coin['current_price'],
+            'coin_id' => $coin['id'],
+            'coin_symbol' => $coin['symbol'],
+            'coin_name' => $coin['name'],
+            'coin_price' => $coin['current_price'],
             'price' => $price,
             'status' => $status,
         ];

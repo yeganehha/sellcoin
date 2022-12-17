@@ -18,10 +18,10 @@ return new class extends Migration
             $table->float('amount' , 16 , 8 );
             $table->unsignedBigInteger('platform_id');
             $table->foreign('platform_id')->on('platforms')->references('id')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('currency_id');
-            $table->string('currency_symbol');
-            $table->string('currency_name');
-            $table->string('currency_price');
+            $table->string('coin_id');
+            $table->string('coin_symbol');
+            $table->string('coin_name');
+            $table->string('coin_price');
             $table->string('price');
             $table->enum('status' , ['wait','paid','cancel'])->default('wait');
             $table->timestamps();

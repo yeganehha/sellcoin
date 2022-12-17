@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 
 
 /**
+ * @property int $id
  * @property string $name
  * @property float $deposit_tether
  * @property float $reserved_tether

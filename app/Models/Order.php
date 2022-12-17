@@ -3,19 +3,23 @@
 namespace App\Models;
 
 use App\Enums\OrderStatusEnum;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int $id
  * @property float amount
  * @property int platform_id
- * @property string currency_id
- * @property string currency_symbol
- * @property string currency_name
- * @property float currency_price
+ * @property string coin_id
+ * @property string coin_symbol
+ * @property string coin_name
+ * @property float coin_price
  * @property float price
  * @property OrderStatusEnum status
  * @property Platform platform
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  */
 class Order extends Model
 {
@@ -24,10 +28,10 @@ class Order extends Model
     protected $fillable = [
         'amount' ,
         'platform_id' ,
-        'currency_id' ,
-        'currency_symbol' ,
-        'currency_name' ,
-        'currency_price' ,
+        'coin_id' ,
+        'coin_symbol' ,
+        'coin_name' ,
+        'coin_price' ,
         'price' ,
         'status' ,
     ];
@@ -35,7 +39,7 @@ class Order extends Model
     protected $casts = [
         'amount' => 'float',
         'platform_id' => 'int',
-        'currency_price' => 'float',
+        'coin_price' => 'float',
         'price' => 'float',
         'status' => OrderStatusEnum::class,
     ];
