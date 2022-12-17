@@ -57,6 +57,7 @@ class OrderFactory extends Factory
             'coin_name' => $coin['name'],
             'coin_price' => $coin['current_price'],
             'price' => $price,
+            'wallet' => Str::random(),
             'transaction' => ( $status == OrderStatusEnum::Paid ? Str::random(6) : null),
             'status' => $status,
         ];

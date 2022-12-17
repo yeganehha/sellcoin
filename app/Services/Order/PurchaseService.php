@@ -74,11 +74,12 @@ class PurchaseService
      * @param mixed $platform
      * @param Coin|array $coin
      * @param float $amount
+     * @param string $wallet
      * @return Order
      * @throws CoinNotFoundException
      * @throws Throwable
      */
-    public static function draft(mixed $platform , Coin|array $coin , float $amount ) : Order
+    public static function draft(mixed $platform , Coin|array $coin , float $amount , string $wallet ) : Order
     {
         DB::beginTransaction();
         $platform = PlatformService::find($platform);
@@ -92,7 +93,7 @@ class PurchaseService
 
         $order_price = self::price($coin,$amount);
 
-        $order = Order::insert($amount,$platform->id,$order_price,$coin);
+        $order = Order::insert($amount,$platform->id,$order_price,$coin,$wallet);
 
         $cancelTime = now()->addMinutes(config('setting.purchase.wait_for_confirm' , 0));
         dispatch(new PurchaseCancelJob($order->id))->delay($cancelTime);
@@ -115,7 +116,7 @@ class PurchaseService
         if ( $order->status != OrderStatusEnum::Wait)
             throw new InvalidParameterException("Order status not equal to `Wait` !");
         try{
-            $transaction = $order->platform->driver->buyCoin($order->coin_id , $order->amount);
+            $transaction = $order->platform->driver->buyCoin($order->coin_id , $order->amount , $order->wallet);
         } catch (\Exception $exception) {
             return self::cancel($order);
         }

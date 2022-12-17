@@ -45,7 +45,7 @@ class PurchaseServiceTest extends TestCase
         $coin->name = 'Tether';
         $coin->price = 1;
         $coin->symbol = 'tether';
-        $order = PurchaseService::draft($inserted , $coin,2.5) ;
+        $order = PurchaseService::draft($inserted , $coin,2.5 , 'test') ;
         PurchaseService::confirm($order);
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,
@@ -64,7 +64,7 @@ class PurchaseServiceTest extends TestCase
         $coin->name = 'Tether';
         $coin->price = 1;
         $coin->symbol = 'tether';
-        $order = PurchaseService::draft($inserted , $coin,2.5) ;
+        $order = PurchaseService::draft($inserted , $coin,2.5 , 'test') ;
         PurchaseService::cancel($order);
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,
@@ -88,7 +88,7 @@ class PurchaseServiceTest extends TestCase
         $coin->name = 'Tether';
         $coin->price = 1;
         $coin->symbol = 'tether';
-        $order = PurchaseService::draft($inserted , $coin,2.5) ;
+        $order = PurchaseService::draft($inserted , $coin,2.5 , 'test') ;
         $this->assertEquals($order->id , PurchaseService::find($order)->id);
 
     }
@@ -102,7 +102,7 @@ class PurchaseServiceTest extends TestCase
         $coin->name = 'Tether';
         $coin->price = 1;
         $coin->symbol = 'tether';
-        $order = PurchaseService::draft($inserted , $coin,2.5) ;
+        $order = PurchaseService::draft($inserted , $coin,2.5 , 'test') ;
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,
             'coin_id' => 'tether',
