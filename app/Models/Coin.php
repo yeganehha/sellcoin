@@ -5,22 +5,23 @@ namespace App\Models;
 use Jenssegers\Model\Model;
 
 /**
+ * @property string $id
+ * @property string $image
  * @property string $symbol
  * @property string $name
  * @property float $price
- * @property Platform $platform
  */
 class Coin extends Model
 {
     protected $fillable = [
+        'id',
+        'image',
         'symbol',
         'name',
         'price',
-        'platform',
     ];
 
     protected $casts = [
         'price' => 'float',
-        'platform' => Platform::class,
     ];
 }

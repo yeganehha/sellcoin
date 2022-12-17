@@ -13,11 +13,11 @@ abstract class Platform implements PlatformInterface,Arrayable
     /**
      * get information of special coin.
      *
-     * @param string $symbol
+     * @param mixed $id
      * @return Coin
      * @throws CoinNotFoundException
      */
-    public function getCoin(string $symbol) : Coin
+    public function getCoin(mixed $id) : Coin
     {
         throw (new CoinNotFoundException())->setCoin($symbol);
     }

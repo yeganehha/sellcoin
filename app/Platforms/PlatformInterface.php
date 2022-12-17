@@ -22,11 +22,11 @@ interface PlatformInterface
     /**
      * get information of special coin.
      *
-     * @param string $symbol
+     * @param mixed $id
      * @return Coin
      * @throws CoinNotFoundException
      */
-    public function getCoin(string $symbol) : Coin ;
+    public function getCoin(mixed $id) : Coin;
 
 
     /**
