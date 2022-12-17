@@ -24,18 +24,18 @@ class {{ class }} extends \App\Platforms\Platform
     /**
      * get information of special coin.
      *
-     * @param string $symbol
+     * @param mixed $id
      * @return Coin
      * @throws CoinNotFoundException
      */
-    public function getCoin(string $symbol) : Coin
+    public function getCoin(mixed $id) : Coin
     {
         $coins = $this->coins();
-        $coin = $coins->first(function ($coin) use($symbol) {
-                                  return $coin->symbol == $symbol;
+        $coin = $coins->first(function ($coin) use($id) {
+                                  return $coin->id == $id;
                               });
         if ( $coin == null )
-            throw (new CoinNotFoundException())->setCoin($symbol);
+            throw (new CoinNotFoundException())->setCoin($id);
         return $coin;
     }
 
