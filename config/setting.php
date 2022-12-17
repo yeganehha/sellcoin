@@ -8,6 +8,6 @@ return [
         'cache_time' => 60 // time of caching information of special coin
     ],
     'purchase' => [
-        'wait_for_confirm' => 15 // minute wait before auto cancel  purchase
+        'wait_for_confirm' => 5 // minute wait before auto cancel  purchase
     ]
 ];
