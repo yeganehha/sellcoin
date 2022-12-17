@@ -116,4 +116,15 @@ class Platform extends Model
         $this->saveOrFail();
         return $this;
     }
+
+    /**
+     * @param float $amount
+     * @return void
+     * @throws \Throwable
+     */
+    public function reduceReservedTether(float $amount): void
+    {
+        $this->reserved_tether -= $amount;
+        $this->saveOrFail();
+    }
 }

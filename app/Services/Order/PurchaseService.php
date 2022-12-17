@@ -2,14 +2,17 @@
 
 namespace App\Services\Order;
 
+use App\Enums\OrderStatusEnum;
 use App\Exceptions\CoinNotFoundException;
 use App\Jobs\PurchaseCancelJob;
 use App\Models\Coin;
 use App\Models\Order;
 use App\Services\Platform\DriverService;
 use App\Services\Platform\PlatformService;
-use \InvalidArgumentException;
+use InvalidArgumentException;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Throwable;
 
 class PurchaseService
 {
@@ -53,6 +56,19 @@ class PurchaseService
         return $amount * $coin;
     }
 
+
+
+    private static function find( mixed $order) : Order
+    {
+        if ( $order instanceof Order)
+            return $order;
+        elseif ( is_object($order) )
+            throw new InvalidArgumentException("Object You send is not valid Order!");
+        elseif( (int) $order > 0 )
+            return Order::findWithId((int) $order);
+        throw new InvalidArgumentException("Object You send is not valid Order!");
+    }
+
     /**
      * generate purchase order
      * @param mixed $platform
@@ -60,7 +76,7 @@ class PurchaseService
      * @param float $amount
      * @return Order
      * @throws CoinNotFoundException
-     * @throws \Throwable
+     * @throws Throwable
      */
     public static function draft(mixed $platform , Coin|array $coin , float $amount ) : Order
     {
@@ -82,6 +98,46 @@ class PurchaseService
         dispatch(new PurchaseCancelJob($order->id))->delay($cancelTime);
 
         $platform->updateTether($order_price);
+        DB::commit();
+        return $order;
+    }
+
+    /**
+     * confirm purchase order
+     * @param mixed $order
+     * @return Order
+     * @throws Throwable
+     */
+    public static function confirm(mixed $order) : Order
+    {
+        DB::beginTransaction();
+        $order = self::find($order);
+        if ( $order->status != OrderStatusEnum::Wait)
+            throw new InvalidParameterException("Order status not equal to `Wait` !");
+
+        $order = $order->edit(OrderStatusEnum::Paid);
+
+        $order->platform->reduceReservedTether($order->price);
+        DB::commit();
+        return $order;
+    }
+
+    /**
+     * cancel purchase order
+     * @param mixed $order
+     * @return Order
+     * @throws Throwable
+     */
+    public static function cancel(mixed $order) : Order
+    {
+        DB::beginTransaction();
+        $order = self::find($order);
+        if ( $order->status != OrderStatusEnum::Wait)
+            throw new InvalidParameterException("Order status not equal to `Wait` !");
+
+        $order = $order->edit(OrderStatusEnum::Cancel);
+
+        $order->platform->updateTether($order->price , false);
         DB::commit();
         return $order;
     }

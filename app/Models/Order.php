@@ -49,6 +49,14 @@ class Order extends Model
         return $this->belongsTo(Platform::class)->withTrashed();
     }
 
+    /**
+     * @param int $id
+     * @return static
+     */
+    public static function findWithId(int $id): self
+    {
+        return self::findOrFail($id);
+    }
 
     /**
      * @param float $amount
@@ -56,6 +64,7 @@ class Order extends Model
      * @param float $price
      * @param Coin $coin
      * @return Order
+     * @throws \Throwable
      */
     public static function insert(float $amount , int $platform_id , float $price , Coin $coin ): self
     {
