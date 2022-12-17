@@ -48,4 +48,48 @@ class Order extends Model
     {
         return $this->belongsTo(Platform::class)->withTrashed();
     }
+
+
+    /**
+     * @param float $amount
+     * @param int $platform_id
+     * @param float $price
+     * @param Coin $coin
+     * @return Order
+     */
+    public static function insert(float $amount , int $platform_id , float $price , Coin $coin ): self
+    {
+        $order = new self();
+        $order->edit(OrderStatusEnum::Wait,$amount,$price,$platform_id,$coin);
+        return $order;
+    }
+
+    /**
+     * @param OrderStatusEnum|null $status
+     * @param float|null $amount
+     * @param float|null $price
+     * @param int|null $platform_id
+     * @param Coin|null $coin
+     * @return Order
+     * @throws \Throwable
+     */
+    public function edit(OrderStatusEnum|null $status = null, float|null $amount = null , float|null $price = null , int|null $platform_id = null  , Coin|null $coin = null): self
+    {
+        if( $status != null)
+            $this->status = $status;
+        if( $amount != null)
+            $this->amount = $amount;
+        if( $platform_id != null)
+            $this->platform_id = $platform_id;
+        if( $price != null)
+            $this->price = $price;
+        if( $coin != null) {
+            $this->coin_id = $coin->id;
+            $this->coin_name = $coin->name;
+            $this->coin_price = $coin->price;
+            $this->coin_symbol = $coin->symbol;
+        }
+        $this->saveOrFail();
+        return $this;
+    }
 }
