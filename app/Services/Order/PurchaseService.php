@@ -20,10 +20,10 @@ class PurchaseService
     /**
      * get maximum amount that user can but
      * @param mixed $platform
-     * @param Coin|array|int $coin
+     * @param Coin|array|float $coin
      * @return float
      */
-    public static function maximumAvailableAmount(mixed $platform , Coin|array|int $coin) : float
+    public static function maximumAvailableAmount(mixed $platform , Coin|array|float $coin) : float
     {
         $platform = PlatformService::find($platform);
 
@@ -32,7 +32,7 @@ class PurchaseService
         elseif ( is_array($coin) and isset($coin['price']))
             $coin = $coin['price'] ;
         else
-            $coin = (int) $coin ;
+            $coin = (float) $coin ;
         $availableAmount = $platform->available_tether / $coin;
         $mult = pow(10, 8);
         return floor($availableAmount * $mult) / $mult;
@@ -40,18 +40,18 @@ class PurchaseService
 
     /**
      * generate order price
-     * @param Coin|array|int $coin
+     * @param Coin|array|float $coin
      * @param float $amount
      * @return float
      */
-    public static function price(Coin|array|int $coin , float $amount) : float
+    public static function price(Coin|array|float $coin , float $amount) : float
     {
         if ( $coin instanceof Coin)
             $coin = $coin->price ;
         elseif ( is_array($coin) and isset($coin['price']))
             $coin = $coin['price'] ;
         else
-            $coin = (int) $coin ;
+            $coin = (float) $coin ;
 
         return $amount * $coin;
     }
@@ -74,11 +74,12 @@ class PurchaseService
      * @param mixed $platform
      * @param Coin|array $coin
      * @param float $amount
+     * @param string $wallet
      * @return Order
      * @throws CoinNotFoundException
      * @throws Throwable
      */
-    public static function draft(mixed $platform , Coin|array $coin , float $amount ) : Order
+    public static function draft(mixed $platform , Coin|array $coin , float $amount , string $wallet ) : Order
     {
         DB::beginTransaction();
         $platform = PlatformService::find($platform);
@@ -92,7 +93,7 @@ class PurchaseService
 
         $order_price = self::price($coin,$amount);
 
-        $order = Order::insert($amount,$platform->id,$order_price,$coin);
+        $order = Order::insert($amount,$platform->id,$order_price,$coin,$wallet);
 
         $cancelTime = now()->addMinutes(config('setting.purchase.wait_for_confirm' , 0));
         dispatch(new PurchaseCancelJob($order->id))->delay($cancelTime);
@@ -115,7 +116,7 @@ class PurchaseService
         if ( $order->status != OrderStatusEnum::Wait)
             throw new InvalidParameterException("Order status not equal to `Wait` !");
         try{
-            $transaction = $order->platform->driver->buyCoin($order->coin_id , $order->amount);
+            $transaction = $order->platform->driver->buyCoin($order->coin_id , $order->amount , $order->wallet);
         } catch (\Exception $exception) {
             return self::cancel($order);
         }

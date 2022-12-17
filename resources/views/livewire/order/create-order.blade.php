@@ -73,6 +73,20 @@
             <div class="col-md-6 mb-3 mt-3 text-center">
                 <span>Price:  ${{ number_format($price, 8) }}</span>
             </div>
+
+
+            <div class="col-md-6 row mb-3">
+                <label for="name" class="col-md-4 col-form-label text-md-end">Wallet</label>
+
+                <div class="col-md-8">
+                    <input id="name" type="text" class="form-control @error('wallet') is-invalid @enderror" wire:model="wallet"  value="{{ $wallet }}" autocomplete="off" autofocus>
+                    @error('wallet')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
+                </div>
+            </div>
         @endif
 
         <div class="col-md-12 alert w-100 alert-info" wire:loading>
