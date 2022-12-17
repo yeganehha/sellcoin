@@ -18,6 +18,7 @@ return new class extends Migration
             $table->float('amount' , 16 , 8 );
             $table->unsignedBigInteger('platform_id');
             $table->foreign('platform_id')->on('platforms')->references('id')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('transaction')->nullable()->default(null);
             $table->string('coin_id');
             $table->string('coin_symbol');
             $table->string('coin_name');

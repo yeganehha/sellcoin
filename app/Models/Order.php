@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property float amount
  * @property int platform_id
+ * @property string transaction
  * @property string coin_id
  * @property string coin_symbol
  * @property string coin_name
@@ -28,6 +29,7 @@ class Order extends Model
     protected $fillable = [
         'amount' ,
         'platform_id' ,
+        'transaction' ,
         'coin_id' ,
         'coin_symbol' ,
         'coin_name' ,
@@ -69,12 +71,13 @@ class Order extends Model
     public static function insert(float $amount , int $platform_id , float $price , Coin $coin ): self
     {
         $order = new self();
-        $order->edit(OrderStatusEnum::Wait,$amount,$price,$platform_id,$coin);
+        $order->edit(OrderStatusEnum::Wait,null,$amount,$price,$platform_id,$coin);
         return $order;
     }
 
     /**
      * @param OrderStatusEnum|null $status
+     * @param string|null $transaction
      * @param float|null $amount
      * @param float|null $price
      * @param int|null $platform_id
@@ -82,12 +85,14 @@ class Order extends Model
      * @return Order
      * @throws \Throwable
      */
-    public function edit(OrderStatusEnum|null $status = null, float|null $amount = null , float|null $price = null , int|null $platform_id = null  , Coin|null $coin = null): self
+    public function edit(OrderStatusEnum|null $status = null, string|null $transaction = null, float|null $amount = null , float|null $price = null , int|null $platform_id = null  , Coin|null $coin = null): self
     {
         if( $status != null)
             $this->status = $status;
         if( $amount != null)
             $this->amount = $amount;
+        if( $transaction != null)
+            $this->transaction = $transaction;
         if( $platform_id != null)
             $this->platform_id = $platform_id;
         if( $price != null)

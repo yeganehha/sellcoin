@@ -32,10 +32,10 @@ interface PlatformInterface
     /**
      * buy custom amount of special coin.
      *
-     * @param string $symbol coin symbol
+     * @param mixed $coin coin
      * @param float $amount amount of that coin
      * @return string transaction uid
      * @throws PlatformDriverDoNotSupportBuyAnyCoinException
      */
-    public function buyCoin(string $symbol , float $amount) : string;
+    public function buyCoin(mixed $coin , float $amount) : string;
 }

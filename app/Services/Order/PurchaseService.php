@@ -114,8 +114,12 @@ class PurchaseService
         $order = self::find($order);
         if ( $order->status != OrderStatusEnum::Wait)
             throw new InvalidParameterException("Order status not equal to `Wait` !");
-
-        $order = $order->edit(OrderStatusEnum::Paid);
+        try{
+            $transaction = $order->platform->driver->buyCoin($order->coin_id , $order->amount);
+        } catch (\Exception $exception) {
+            return self::cancel($order);
+        }
+        $order = $order->edit(OrderStatusEnum::Paid , $transaction);
 
         $order->platform->reduceReservedTether($order->price);
         DB::commit();
