@@ -63,6 +63,6 @@ To run tests, run the following command
 
 ## Git Flow Diagram
 
-![Git Flow](https://erfanebrahimi.ir/temp.png)
+![Git Flow](https://raw.githubusercontent.com/yeganehha/sellcoin/main/git.jpg)
 
 
