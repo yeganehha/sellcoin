@@ -58,7 +58,7 @@ class PurchaseService
 
 
 
-    private static function find( mixed $order) : Order
+    public static function find( mixed $order) : Order
     {
         if ( $order instanceof Order)
             return $order;

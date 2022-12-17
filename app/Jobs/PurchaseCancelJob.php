@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Order;
+use App\Enums\OrderStatusEnum;
 use App\Services\Order\PurchaseService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -10,7 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class PurchaseCancelJob implements ShouldQueue
 {
@@ -35,8 +34,8 @@ class PurchaseCancelJob implements ShouldQueue
      */
     public function handle()
     {
-        try {
+        $order = PurchaseService::find($this->orderId);
+        if ( $order->status == OrderStatusEnum::Wait )
             PurchaseService::cancel($this->orderId);
-        } catch (InvalidParameterException $exception){}
     }
 }
