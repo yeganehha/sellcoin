@@ -37,6 +37,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('platforms.index') }}">Platforms</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('orders.index') }}">Orders</a>
+                        </li>
                     </ul>
                 </div>
             </div>
